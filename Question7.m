@@ -83,7 +83,7 @@ Message=InitMessagesLoopy(N,node,Adj,Message);
 % SUM-PRODUCT ALGORITHM ON A TREE IS EXACT
 MaxIterationNumber=100;
 [Message,Marginal,Entropy]=SumProductAlgorithmLoopy(N,node,Adj,Message,MaxIterationNumber);
-celldisp(Message)
+%celldisp(Message)
 
 % DISPLAY PRIOR NODE PROBABILITIES
 disp(['Marginals obtained from sum-product algorithm']);
@@ -92,4 +92,15 @@ for X = 1:N
         disp(['P(' node(X).name, ') = ' num2str(Marginal{X})]);
     end
 end
+
+% DISPLAY Entropy of each variable node
+for X = 1:N
+    if(node(X).type=='variable')
+        subplot(1,1,X);
+        plot((1:MaxIterationNumber),Entropy(X,:));
+        xlabel('Iteration');
+        ylabel(['Entropy of variable node' num2str(node(X).name) ' .']);
+    end
+end
+
 

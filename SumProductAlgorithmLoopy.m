@@ -17,7 +17,7 @@
 % - Entropy[N,MaxIterationNumber]: Entropy for each variable node and each iteration
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [Message,Marginal]=SumProductAlgorithmLoopy(N,node,Adj,Message,MaxIterationNumber)
+function [Message,Marginal,Entropy]=SumProductAlgorithmLoopy(N,node,Adj,Message,MaxIterationNumber)
 
 % scan all nodes while a message to a neighbor is empty 
 % MODIF loop=1;
