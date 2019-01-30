@@ -41,7 +41,8 @@ for iteration=1:MaxIterationNumber
                         Message{X,neighbors(n)}=Message{X,neighbors(n)}.*Message{delta(m),X};
                     end
                 % update function to variable node messages 
-                elseif node(X).type=='function'
+                % MODIF
+                elseif node(X).type=='function' & length(neighbors)>1
                     % - compute function node x product of all incoming
                     % messages from delta conserving the order of the variables
                     w=1;
