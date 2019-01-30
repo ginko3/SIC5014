@@ -73,7 +73,7 @@ Message=InitMessages(N,node,Adj,Message);
 % MODIF: B=t est observé
 Message{2,6}=[1,0];
 % MODIF: X=t est observé
-Message{8,3}=[1,0];
+Message{4,8}=[1,0];
 
 %celldisp(Message)
 % SUM-PRODUCT ALGORITHM ON A TREE IS EXACT
@@ -84,7 +84,7 @@ Message{8,3}=[1,0];
 disp(['Marginals obtained from sum-product algorithm']);
 for X = 1:N
     if(node(X).type=='variable')
-        disp(['P(' node(X).name, '|B=t) = ' num2str(Marginal{X})]);
+        disp(['P(' node(X).name, '|B=t,X=t) = ' num2str(Marginal{X})]);
     end
 end
 
@@ -118,7 +118,9 @@ end
 % forcer à zéros P(B=f|S)
 node(6).CPT=[0.25 0;
              0.05 0];          % conditional probability table
-
+% forcer à zéros P(X=f|L)
+node(8).CPT=[0.6  0;
+             0.02 0];
 LoiConjointe=zeros(dim);
 for valeurS=t:f
     for valeurB=t:f
@@ -146,7 +148,7 @@ end
 disp(['Marginals obtained from direct approach']);
 for X = 1:N
     if(node(X).type=='variable')
-        disp(['P(' node(X).name, '|B=t) = ' num2str(Marginal{X})]);
+        disp(['P(' node(X).name, '|B=t,X=t) = ' num2str(Marginal{X})]);
     end
 end
 
