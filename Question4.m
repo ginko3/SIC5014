@@ -113,6 +113,9 @@ for X=1:N
         dim=[dim,length(node(X).values)];
     end
 end
+% forcer à zéros P(B=f|S)
+node(6).CPT=[0.25 0;
+             0.05 0];          % conditional probability table
 
 LoiConjointe=zeros(dim);
 for valeurS=t:f
@@ -141,7 +144,7 @@ end
 disp(['Marginals obtained from direct approach']);
 for X = 1:N
     if(node(X).type=='variable')
-        disp(['P(' node(X).name, ') = ' num2str(Marginal{X})]);
+        disp(['P(' node(X).name, '|B=t) = ' num2str(Marginal{X})]);
     end
 end
 
