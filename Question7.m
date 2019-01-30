@@ -96,7 +96,7 @@ end
 % DISPLAY Entropy of each variable node
 for X = 1:N
     if(node(X).type=='variable')
-        subplot(1,1,X);
+        subplot(1,5,X);
         plot((1:MaxIterationNumber),Entropy(X,:));
         xlabel('Iteration');
         ylabel(['Entropy of variable node' num2str(node(X).name) ' .']);
