@@ -77,18 +77,18 @@ N=size(Adj,1);
 % CREATE AN ARRAY [nxn] EMPTY MATRICES REPRESENTING THE MESSAGES
 Message=cell(size(Adj));
 
-% INIT MESSAGES
-Message=InitMessages(N,node,Adj,Message);
-%celldisp(Message)
-% SUM-PRODUCT ALGORITHM ON A TREE IS EXACT
-[Message,Marginal]=SumProductAlgorithm(N,node,Adj,Message);
-celldisp(Message)
-
-% DISPLAY PRIOR NODE PROBABILITIES
-disp(['Marginals obtained from sum-product algorithm']);
-for X = 1:N
-    if(node(X).type=='variable')
-        disp(['P(' node(X).name, ') = ' num2str(Marginal{X})]);
-    end
-end
+% % INIT MESSAGES
+% Message=InitMessages(N,node,Adj,Message);
+% %celldisp(Message)
+% % SUM-PRODUCT ALGORITHM ON A TREE IS EXACT
+% [Message,Marginal]=SumProductAlgorithm(N,node,Adj,Message);
+% celldisp(Message)
+% 
+% % DISPLAY PRIOR NODE PROBABILITIES
+% disp(['Marginals obtained from sum-product algorithm']);
+% for X = 1:N
+%     if(node(X).type=='variable')
+%         disp(['P(' node(X).name, ') = ' num2str(Marginal{X})]);
+%     end
+% end
 
