@@ -8,6 +8,7 @@
 % - node[N]: node structure
 % - Adj[NxN]: adjacency matrix of the factor graph
 % - Message[NxN]: array of empty matrices representing the messages
+% - MaxIterationNumber: max. number of iterations
 %
 % Output arguments:
 % - Message[NxN]: array of matrices representing the messages after
@@ -15,11 +16,12 @@
 % - Marginal[N]: array of matrices representing the marginals
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [Message,Marginal]=SumProductAlgorithmLoopy(N,node,Adj,Message)
+function [Message,Marginal]=SumProductAlgorithmLoopy(N,node,Adj,Message,MaxIterationNumber)
 
 % scan all nodes while a message to a neighbor is empty 
-loop=1;
-while loop
+% MODIF loop=1;
+%while loop
+for iteration=1:MaxIterationNumber
    for X=1:N
         % find all neighboring nodes of X
         neighbors=find(Adj(X,:));
@@ -28,7 +30,8 @@ while loop
             % collect the set of neighbors\neighbor(n)
             delta=setdiff(neighbors,neighbors(n));
             % test if the message towards neighbors(n) is empty and computable
-            if isempty(Message{X,neighbors(n)}) && sum(cellfun(@isempty,Message(delta,X)))==0  
+            %MODIF if isempty(Message{X,neighbors(n)}) && sum(cellfun(@isempty,Message(delta,X)))==0  
+            if sum(cellfun(@isempty,Message(delta,X)))==0
                 % update variable to function node messages
                 if node(X).type=='variable'
                     % compute the product of all incoming messages from delta
@@ -57,28 +60,30 @@ while loop
         end
    end
     
-   % stopping rule: check if at least one message in the array is missing
-   loop=sum(cellfun(@isempty,Message(find(Adj))));
-end
+   % MODIF stopping rule: check if at least one message in the array is missing
+   %loop=sum(cellfun(@isempty,Message(find(Adj))));
     
-% Termination: as soon as each edge in factor graph has been traversed in each direction
-% Collect set of variable nodes
-variable_nodes=[];
-for n=1:N
-    if(node(n).type=='variable')
-        variable_nodes=[variable_nodes,n];
+    % Termination: as soon as each edge in factor graph has been traversed in each direction
+    % Collect set of variable nodes
+    variable_nodes=[];
+    for n=1:N
+        if(node(n).type=='variable')
+            variable_nodes=[variable_nodes,n];
+        end
     end
-end
 
-% Compute marginal for each variable node
-for X=1:length(variable_nodes)
-     % find all neighboring nodes of X
-     neighbors=find(Adj(X,:));
-     % compute marginal of X
-     Marginal{X}=ones(size(node(X).values));
-     for m=1:length(neighbors)
-        Marginal{X}=Marginal{X}.*Message{neighbors(m),X};
-     end
-     % normalize marginal of X to probability mass function
-     Marginal{X}=Marginal{X}./sum(Marginal{X});
+    % MODIF: Compute marginal for each variable node for each iteration
+    for X=1:length(variable_nodes)
+         % find all neighboring nodes of X
+        neighbors=find(Adj(X,:));
+        % compute marginal of X
+        Marginal{X}=ones(size(node(X).values));
+        for m=1:length(neighbors)
+            Marginal{X}=Marginal{X}.*Message{neighbors(m),X};
+        end
+        % normalize marginal of X to probability mass function
+        Marginal{X}=Marginal{X}./sum(Marginal{X});
+        % MODIF: Compute Entropy of variable node X for each iteration
+        Entropy(X,iteration)=sum(-log2(Marginal{X}).*Marginal{X});
+    end
 end
