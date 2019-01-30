@@ -14,6 +14,7 @@
 % - Message[NxN]: array of matrices representing the messages after
 %                 the sum-product update
 % - Marginal[N]: array of matrices representing the marginals
+% - Entropy[N,MaxIterationNumber]: Entropy for each variable node and each iteration
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [Message,Marginal]=SumProductAlgorithmLoopy(N,node,Adj,Message,MaxIterationNumber)
