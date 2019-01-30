@@ -71,7 +71,7 @@ Message=cell(size(Adj));
 % INIT MESSAGES
 Message=InitMessages(N,node,Adj,Message);
 % MODIF: B=t est observé
-Message{6,1}=[1,0];
+Message{2,6}=[1,0];
 
 %celldisp(Message)
 % SUM-PRODUCT ALGORITHM ON A TREE IS EXACT
