@@ -7,7 +7,7 @@
 clear all;
 close all;
 
-% Define Model1
+% Define Model2
 
 % variables true and false
 t=1; f=2;
@@ -32,32 +32,41 @@ node(3).values=[t f];             % assumed values
 node(4).name='X';                 % fill in name
 node(4).type='variable';          % fill in type
 node(4).values=[t f];             % assumed values
+% DEFINE NODE5
+node(5).name='F';                 % fill in name
+node(5).type='variable';          % fill in type
+node(5).values=[t f];             % assumed values
 
 % FUNCTION NODES
-% DEFINE NODE5
-node(5).name='p(S)';              % fill in name
-node(5).type='function';          % fill in type
-node(5).CPT=[0.2 0.8];            % conditional probability table
 % DEFINE NODE6
-node(6).name='p(B|S)';            % fill in name
+node(6).name='p(S)';              % fill in name
 node(6).type='function';          % fill in type
-node(6).CPT=[0.25 0.75;
-             0.05 0.95];          % conditional probability table
+node(6).CPT=[0.2 0.8];            % conditional probability table
 % DEFINE NODE7
-node(7).name='p(L|S)';            % fill in name
+node(7).name='p(B|S)';            % fill in name
 node(7).type='function';          % fill in type
-node(7).CPT=[0.003   0.997;
-             0.00005 0.99995];    % conditional probability table
+node(7).CPT=[0.25 0.75;
+             0.05 0.95];          % conditional probability table
 % DEFINE NODE8
-node(8).name='p(X|L)';            % fill in name
+node(8).name='p(L|S)';            % fill in name
 node(8).type='function';          % fill in type
-node(8).CPT=[0.6   0.4;
+node(8).CPT=[0.003   0.997;
+             0.00005 0.99995];    % conditional probability table
+% DEFINE NODE9
+node(9).name='p(X|L)';            % fill in name
+node(9).type='function';          % fill in type
+node(9).CPT=[0.6   0.4;
              0.02 0.98];          % conditional probability table
-
+% DEFINE NODE10
+node(10).name='p(F|B,L)';            % fill in name
+node(10).type='function';          % fill in type
+node(10).CPT(:,:,t)=[0.75   0.1;
+                    0.5 0.05];          % conditional probability table
+node(10).CPT(:,:,f)=1-node(10).CPT(:,:,t);
 
 % DEFINE ADJACENCY MATRIX OF THE FACTOR GRAPH
-B=[1 1 1 0;0 1 0 0 ;0 0 1 1;0 0 0 1];
-Adj=[zeros(4),B;B.',zeros(4)];
+B=[1 1 1 0 0;0 1 0 0 1;0 0 1 1 1;0 0 0 1 0;0 0 0 0 1];
+Adj=[zeros(5),B;B.',zeros(5)];
 
 % draw factor graph using graphlayout package
 figure(1);
